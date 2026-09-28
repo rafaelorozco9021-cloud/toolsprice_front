@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import api from '../api.js'
+import api from './api.js'
 
 export const useProductService = () => {
   const searchProducts = async (query, filters = {}) => {
@@ -20,5 +20,3 @@ export const useProductService = () => {
 
   return { searchProducts, getProduct, compareProducts }
 }
-
-```

@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import api from '../api.js'
+import api from './api.js'
 
 export const useBudgetService = () => {
   const createBudget = async (budget) => {
@@ -18,7 +18,7 @@ export const useBudgetService = () => {
   }
 
   const exportPDF = async (id) => {
-    const response = await api.post(`/budgets/${id}/export/pdf`, {
+    const response = await api.post(`/budgets/${id}/export/pdf`, null, {
       responseType: 'blob'
     })
     return response.data
@@ -26,5 +26,3 @@ export const useBudgetService = () => {
 
   return { createBudget, getBudgets, getBudget, exportPDF }
 }
-
-```

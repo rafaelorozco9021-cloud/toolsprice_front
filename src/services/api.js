@@ -1,7 +1,7 @@
 import { createClient } from 'axios'
 
 const api = createClient({
-  baseURL: 'https://toolsprice-back.onrender.com/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -17,5 +17,3 @@ api.interceptors.request.use((config) => {
 })
 
 export default api
-
-```
