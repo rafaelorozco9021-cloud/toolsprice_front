@@ -1,7 +1,7 @@
 import { createClient } from 'axios'
 
 const api = createClient({
-  baseURL: '/api',
+  baseURL: 'https://toolsprice-back.onrender.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
