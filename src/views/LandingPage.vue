@@ -89,6 +89,6 @@
 
 <script setup>
 const goToRegister = () => {
-  window.location.href = '/register'
+  window.$router.push('/register')
 }
 </script>
