@@ -166,7 +166,7 @@ const search = async () => {
   lastQuery.value = searchQuery.value
   try {
     const params = new URLSearchParams({ query: searchQuery.value, store: 'Homecenter' })
-    const response = await fetch(`/api/products/search?${params}`)
+    const response = await fetch(`https://toolsprice-back.onrender.com/api/products/search?${params}`)
     const data = await response.json()
     if (!response.ok) throw new Error(data.detail || 'Error en búsqueda')
     results.value = data.products || []

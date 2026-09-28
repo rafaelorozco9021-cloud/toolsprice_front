@@ -150,7 +150,7 @@ const search = async () => {
   try{
     const params=new URLSearchParams({ query: query.value.trim(), limit: '50' })
     if (categoria.value && categoria.value!=='todas') params.append('categoria', categoria.value)
-    const r=await fetch(`/api/labor/search?${params}`)
+    const r=await fetch(`https://toolsprice-back.onrender.com/api/labor/search?${params}`)
     const d=await r.json()
     tasks.value=d.tasks||[]
   }catch(e){ console.error(e); tasks.value=[] } finally{ loading.value=false }
@@ -179,7 +179,7 @@ const logout=()=>{ localStorage.clear(); budgetStore.clear(); router.push('/') }
 
 onMounted(async()=>{
   try{
-    const r=await fetch('/api/labor/categorias')
+    const r=await fetch('https://toolsprice-back.onrender.com/api/labor/categorias')
     const d=await r.json()
     if(d.categorias) categorias.value=d.categorias
   }catch{}

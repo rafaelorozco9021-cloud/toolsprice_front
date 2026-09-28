@@ -121,13 +121,13 @@ const generatePDF = async () => {
         total_price: parseFloat(i.precio) * parseInt(i.quantity)
       }))
     }
-    const r = await fetch('/api/budgets/', { method:'POST', headers:{'Content-Type':'application/json', Authorization:`Bearer ${token}`}, body: JSON.stringify(payload)})
+    const r = await fetch('https://toolsprice-back.onrender.com/api/budgets/', { method:'POST', headers:{'Content-Type':'application/json', Authorization:`Bearer ${token}`}, body: JSON.stringify(payload)})
     const data = await r.json()
     if (!r.ok) {
       if (r.status===401) { alert('Sesión expirada'); localStorage.clear(); router.push('/login'); return }
       throw new Error(data.detail || 'Error al guardar')
     }
-    const pdf = await fetch(`/api/budgets/${data.id}/export/pdf`, { method:'POST', headers:{ Authorization:`Bearer ${token}` }})
+    const pdf = await fetch(`https://toolsprice-back.onrender.com/api/budgets/${data.id}/export/pdf`, { method:'POST', headers:{ Authorization:`Bearer ${token}` }})
     if (!pdf.ok) throw new Error(await pdf.text())
     const blob = await pdf.blob()
     const url = URL.createObjectURL(blob)

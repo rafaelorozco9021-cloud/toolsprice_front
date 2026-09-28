@@ -89,7 +89,7 @@ async function extendSession() {
     return
   }
   try {
-    const r = await fetch('/api/auth/refresh', {
+    const r = await fetch('https://toolsprice-back.onrender.com/api/auth/refresh', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refresh_token: refresh })

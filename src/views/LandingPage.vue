@@ -88,7 +88,11 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const goToRegister = () => {
-  window.$router.push('/register')
+  router.push('/register')
 }
 </script>

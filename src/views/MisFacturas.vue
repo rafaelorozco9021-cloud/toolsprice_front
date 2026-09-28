@@ -182,7 +182,7 @@ const authHeaders = () => {
 const fetchBudgets = async () => {
   loading.value = true
   try {
-    const r = await fetch('/api/budgets/', { headers: { ...authHeaders() } })
+    const r = await fetch('https://toolsprice-back.onrender.com/api/budgets/', { headers: { ...authHeaders() } })
     if (r.status === 401) { alert('Sesión expirada, inicia sesión'); localStorage.removeItem('access_token'); router.push('/login'); return }
     const data = await r.json()
     budgets.value = Array.isArray(data) ? data : []
@@ -191,7 +191,7 @@ const fetchBudgets = async () => {
 
 const viewBudget = async (b) => {
   try {
-    const r = await fetch(`/api/budgets/${b.id}`, { headers: authHeaders() })
+    const r = await fetch(`https://toolsprice-back.onrender.com/api/budgets/${b.id}`, { headers: authHeaders() })
     viewData.value = await r.json()
     showView.value = true
   } catch (e) { alert('Error al consultar factura') }
@@ -199,7 +199,7 @@ const viewBudget = async (b) => {
 
 const editBudget = async (b) => {
   try {
-    const r = await fetch(`/api/budgets/${b.id}`, { headers: authHeaders() })
+    const r = await fetch(`https://toolsprice-back.onrender.com/api/budgets/${b.id}`, { headers: authHeaders() })
     const data = await r.json()
     // clonar para edición
     editData.value = JSON.parse(JSON.stringify(data))
@@ -224,7 +224,7 @@ const saveEdit = async () => {
     }))
   }
   try {
-    const r = await fetch(`/api/budgets/${editData.value.id}`, {
+    const r = await fetch(`https://toolsprice-back.onrender.com/api/budgets/${editData.value.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify(payload)
@@ -240,7 +240,7 @@ const saveEdit = async () => {
 const deleteBudget = async (b) => {
   if (!confirm(`¿Eliminar factura "${b.name}"?`)) return
   try {
-    const r = await fetch(`/api/budgets/${b.id}`, { method: 'DELETE', headers: authHeaders() })
+    const r = await fetch(`https://toolsprice-back.onrender.com/api/budgets/${b.id}`, { method: 'DELETE', headers: authHeaders() })
     if (!r.ok) throw new Error('No se pudo eliminar')
     await fetchBudgets()
   } catch (e) { alert(e.message) }
@@ -248,7 +248,7 @@ const deleteBudget = async (b) => {
 
 const duplicateBudget = async (b) => {
   try {
-    const r = await fetch(`/api/budgets/${b.id}/duplicate`, { method: 'POST', headers: authHeaders() })
+    const r = await fetch(`https://toolsprice-back.onrender.com/api/budgets/${b.id}/duplicate`, { method: 'POST', headers: authHeaders() })
     if (!r.ok) throw new Error('No se pudo duplicar')
     await fetchBudgets()
     alert('Factura duplicada')
@@ -257,7 +257,7 @@ const duplicateBudget = async (b) => {
 
 const printBudget = async (b) => {
   try {
-    const r = await fetch(`/api/budgets/${b.id}/export/pdf`, { method: 'POST', headers: authHeaders() })
+    const r = await fetch(`https://toolsprice-back.onrender.com/api/budgets/${b.id}/export/pdf`, { method: 'POST', headers: authHeaders() })
     if (!r.ok) { const t=await r.text(); throw new Error(t.slice(0,200)) }
     const blob = await r.blob()
     const url = URL.createObjectURL(blob)
