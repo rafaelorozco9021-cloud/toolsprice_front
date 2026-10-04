@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import LandingPage from '../views/LandingPage.vue'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
@@ -16,10 +16,11 @@ const routes = [
   { path: '/carrito', redirect: '/presupuesto' },
   { path: '/mis-facturas', name: 'MisFacturas', component: MisFacturas, meta: { requiresAuth: true } },
   { path: '/mano-de-obra', name: 'ManoDeObra', component: ManoDeObra, meta: { requiresAuth: true } },
+  { path: '/:pathMatch(.*)*', redirect: '/' },
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 })
 
