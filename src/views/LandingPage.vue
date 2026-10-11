@@ -10,10 +10,14 @@
       </nav>
     </header>
 
-    <section class="hero text-center text-white py-12 md:py-20 px-4">
-      <h2 class="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight">Arma el presupuesto de tu obra en minutos</h2>
-      <p class="text-base md:text-xl mb-6 md:mb-8 max-w-2xl mx-auto">Precios reales de Homecenter, comparación automática y presupuestos exportables en PDF.</p>
+    <section class="hero relative text-center text-white py-12 md:py-20 px-4 overflow-hidden">
+      <img src="/img/obra.jpg" alt="Obra de construcción" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/85 via-purple-900/80 to-pink-900/75"></div>
+      <div class="relative">
+      <h2 class="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight drop-shadow-lg">Arma el presupuesto de tu obra en minutos</h2>
+      <p class="text-base md:text-xl mb-6 md:mb-8 max-w-2xl mx-auto drop-shadow">Precios reales de Homecenter, comparación automática y presupuestos exportables en PDF.</p>
       <button @click="goToRegister" class="w-full sm:w-auto bg-white text-purple-600 px-8 py-3 rounded-full font-semibold text-base md:text-lg hover:bg-gray-100 min-h-[48px]">Crear cuenta gratis</button>
+      </div>
     </section>
 
     <section v-if="stats" class="stats bg-white/10 backdrop-blur py-8 md:py-10 px-4">
@@ -62,25 +66,28 @@
       </div>
     </section>
 
-    <section class="benefits bg-gray-50 py-12 md:py-16 px-4">
+    <section class="benefits relative bg-gray-50 py-12 md:py-16 px-4 overflow-hidden">
+      <img src="/img/pintura.jpg" alt="Trabajo de pintura" class="absolute inset-0 w-full h-full object-cover opacity-20" />
+      <div class="relative">
       <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8 md:mb-12">Beneficios</h2>
       <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-        <div class="bg-white p-6 rounded-lg shadow">
+        <div class="bg-white/95 p-6 rounded-lg shadow">
           <h3 class="font-semibold text-lg mb-2">Ahorro de tiempo</h3>
           <p class="text-gray-600">No más visitas a tiendas, compara todo desde casa</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow">
+        <div class="bg-white/95 p-6 rounded-lg shadow">
           <h3 class="font-semibold text-lg mb-2">Precios actualizados</h3>
           <p class="text-gray-600">Datos en tiempo real de las tiendas</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow">
+        <div class="bg-white/95 p-6 rounded-lg shadow">
           <h3 class="font-semibold text-lg mb-2">Presupuestos guardables</h3>
           <p class="text-gray-600">Accede a tu historial cuando lo necesites</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow">
+        <div class="bg-white/95 p-6 rounded-lg shadow">
           <h3 class="font-semibold text-lg mb-2">Exportación PDF</h3>
           <p class="text-gray-600">Documentos profesionales listos para compartir</p>
         </div>
+      </div>
       </div>
     </section>
 
