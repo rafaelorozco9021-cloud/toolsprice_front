@@ -60,7 +60,8 @@ const handleLogin = async () => {
     if (response.ok) {
       localStorage.setItem('access_token', data.access_token)
       localStorage.setItem('refresh_token', data.refresh_token)
-      localStorage.setItem('user_email', form.value.email)
+      localStorage.setItem('user_email', data.email || form.value.email)
+      if (data.name) localStorage.setItem('user_name', data.name)
       // 60 min de sesión + 5 min de aviso
       localStorage.setItem('access_token_exp', Date.now() + 60*60*1000)
       localStorage.setItem('refresh_token_exp', Date.now() + 30*24*60*60*1000)

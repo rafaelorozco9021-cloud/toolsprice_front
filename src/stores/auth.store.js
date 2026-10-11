@@ -16,11 +16,20 @@ export const useAuthStore = defineStore('auth', () => {
     })
 
     token.value = data.access_token
-    user.value = { email }
+    user.value = { email: data.email || email, name: data.name || null }
 
     localStorage.setItem('access_token', data.access_token)
     localStorage.setItem('refresh_token', data.refresh_token)
-    localStorage.setItem('user_email', email)
+    localStorage.setItem('user_email', data.email || email)
+    // Nombre para la firma de presupuestos en PDF (igual que Android)
+    if (data.name) {
+      localStorage.setItem('user_name', data.name)
+    } else {
+      // Usuarios antiguos: pedirlo al backend
+      api.get('/auth/me').then(({ data: me }) => {
+        if (me && me.name) localStorage.setItem('user_name', me.name)
+      }).catch(() => {})
+    }
     localStorage.setItem('access_token_exp', Date.now() + 60 * 60 * 1000)
     localStorage.setItem('refresh_token_exp', Date.now() + 30 * 24 * 60 * 60 * 1000)
 
@@ -33,6 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('access_token')
     localStorage.removeItem('refresh_token')
     localStorage.removeItem('user_email')
+    localStorage.removeItem('user_name')
     localStorage.removeItem('access_token_exp')
     localStorage.removeItem('refresh_token_exp')
   }

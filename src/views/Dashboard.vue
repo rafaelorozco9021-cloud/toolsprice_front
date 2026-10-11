@@ -2,6 +2,7 @@
   <main class="bg-gray-50 min-h-screen p-3 md:p-6">
     <header class="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6 md:mb-8">
       <h1 class="text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-2">ToolsPrice <span class="text-xs md:text-sm font-normal text-gray-500">· Homecenter</span></h1>
+      <p v-if="userName" class="text-xs text-gray-500">Hola, {{ userName }} · tus PDFs se firmarán con este nombre</p>
       <div class="flex flex-wrap items-center gap-2 md:gap-3">
         <button @click="$router.push('/mano-de-obra')" class="flex-1 md:flex-none px-3 md:px-4 py-2 bg-orange-500 text-white rounded-lg text-xs md:text-sm font-bold hover:bg-orange-600">👷 Mano de Obra</button>
         <button @click="$router.push('/mis-facturas')" class="flex-1 md:flex-none px-3 md:px-4 py-2 bg-white border-2 border-purple-200 text-purple-700 rounded-lg text-xs md:text-sm font-bold hover:bg-purple-50">📄 Mis Facturas</button>
@@ -112,12 +113,33 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBudgetStore } from '../stores/budget.store.js'
 
 const router = useRouter()
 const budgetStore = useBudgetStore()
+
+// Nombre para mostrar cómo firmará sus PDFs (igual que Android)
+const userName = ref(localStorage.getItem('user_name') || '')
+onMounted(async () => {
+  if (!userName.value) {
+    try {
+      const token = localStorage.getItem('access_token')
+      if (!token) return
+      const r = await fetch('https://toolsprice-back.onrender.com/api/auth/me', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      if (r.ok) {
+        const me = await r.json()
+        if (me.name) {
+          userName.value = me.name
+          localStorage.setItem('user_name', me.name)
+        }
+      }
+    } catch {}
+  }
+})
 
 const searchQuery = ref('')
 const loading = ref(false)
@@ -194,6 +216,7 @@ const logout = () => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('refresh_token')
   localStorage.removeItem('user_email')
+  localStorage.removeItem('user_name')
   localStorage.removeItem('access_token_exp')
   budgetStore.clear()
   router.push('/')

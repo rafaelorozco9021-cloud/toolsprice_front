@@ -2,6 +2,7 @@
   <main class="bg-gray-50 min-h-screen p-3 md:p-6">
     <header class="max-w-5xl mx-auto flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6 md:mb-8">
       <h1 class="text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-2">ToolsPrice <span class="text-xs md:text-sm font-normal text-gray-500">· Presupuesto</span></h1>
+      <p v-if="userName" class="text-xs text-gray-500">Firmará: {{ userName }}</p>
       <div class="flex flex-wrap items-center gap-2 md:gap-3">
         <button @click="$router.push('/dashboard')" class="flex-1 md:flex-none px-4 py-2 bg-white border rounded-lg text-xs md:text-sm font-semibold hover:bg-gray-50 flex items-center justify-center gap-2">← Seguir buscando</button>
         <button @click="$router.push('/mis-facturas')" class="px-3 py-2 bg-white border-2 border-purple-200 text-purple-700 rounded-lg text-xs font-bold hover:bg-purple-50">📄 Mis Facturas</button>
@@ -97,6 +98,8 @@ import { useBudgetStore } from '../stores/budget.store.js'
 const router = useRouter()
 const budgetStore = useBudgetStore()
 const generating = ref(false)
+// Nombre que firmará el PDF (igual que Android)
+const userName = ref(localStorage.getItem('user_name') || '')
 
 const budgetTypeLabel = computed(() => {
   const m = { construccion: 'Construcción', soldadura: 'Soldadura', pintura: 'Pintura', plomeria: 'Plomería', herramientas: 'Herramientas', mano_obra: 'Mano de Obra' }
