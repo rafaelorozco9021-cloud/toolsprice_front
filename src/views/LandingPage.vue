@@ -16,6 +16,26 @@
       <button @click="goToRegister" class="w-full sm:w-auto bg-white text-purple-600 px-8 py-3 rounded-full font-semibold text-base md:text-lg hover:bg-gray-100 min-h-[48px]">Crear cuenta gratis</button>
     </section>
 
+    <section v-if="stats" class="stats bg-white/10 backdrop-blur py-8 md:py-10 px-4">
+      <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 text-center text-white">
+        <div class="bg-white/15 rounded-2xl px-4 py-5">
+          <p class="text-3xl md:text-4xl font-extrabold">{{ fmt(stats.total_users) }}</p>
+          <p class="text-sm md:text-base opacity-90 mt-1">usuarios registrados</p>
+        </div>
+        <div class="bg-white/15 rounded-2xl px-4 py-5">
+          <p class="text-3xl md:text-4xl font-extrabold">{{ fmt(stats.total_budgets) }}</p>
+          <p class="text-sm md:text-base opacity-90 mt-1">presupuestos generados</p>
+        </div>
+        <div class="bg-white/15 rounded-2xl px-4 py-5">
+          <p class="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Lo más buscado</p>
+          <div v-if="stats.top_searches.length" class="flex flex-wrap justify-center gap-2">
+            <span v-for="s in stats.top_searches" :key="s.query" class="bg-white text-purple-700 text-xs md:text-sm font-bold px-3 py-1 rounded-full">{{ s.query }}</span>
+          </div>
+          <p v-else class="text-sm opacity-80">cemento · varilla · pintura</p>
+        </div>
+      </div>
+    </section>
+
     <section class="how-it-works bg-white py-12 md:py-16 px-4">
       <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8 md:mb-12">Cómo funciona</h2>
       <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
@@ -88,9 +108,20 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const stats = ref(null)
+
+const fmt = (n) => Number(n || 0).toLocaleString('es-CO')
+
+onMounted(async () => {
+  try {
+    const r = await fetch('https://toolsprice-back.onrender.com/api/stats/public')
+    if (r.ok) stats.value = await r.json()
+  } catch {}
+})
 
 const goToRegister = () => {
   router.push('/register')
