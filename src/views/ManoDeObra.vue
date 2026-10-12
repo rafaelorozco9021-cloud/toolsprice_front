@@ -171,6 +171,7 @@ const confirmQty = () => {
     imagen_url: 'https://via.placeholder.com/300x200?text=Mano+de+Obra',
     url_producto: `mano-obra-${qtyTask.value.id}`,
     disponibilidad: true,
+    seccion: 'mano_obra',
   }
   budgetStore.addItem(productLike, q)
   showQty.value=false

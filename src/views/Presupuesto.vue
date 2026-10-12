@@ -35,28 +35,54 @@
               <span class="col-span-6">Producto</span><span class="col-span-2 text-center">Cant.</span><span class="col-span-2 text-right">P. Unit</span><span class="col-span-2 text-right">Subtotal</span>
             </div>
             <ul class="divide-y">
-              <li v-for="(item, idx) in budgetStore.items" :key="item.url_producto" class="p-4 flex flex-col md:grid md:grid-cols-12 gap-3 items-start md:items-center">
+              <li class="px-4 py-2 bg-purple-50 text-xs font-bold text-purple-700 uppercase">1 · Materiales <span class="ml-1 normal-case font-semibold text-gray-500">${{ subtotalSeccion('materiales').toLocaleString('es-CO') }}</span></li>
+              <li v-for="it in groupedItems.materiales" :key="it.item.url_producto" class="p-4 flex flex-col md:grid md:grid-cols-12 gap-3 items-start md:items-center">
                 <div class="flex gap-3 col-span-6 w-full">
-                  <img :src="item.imagen_url" class="w-16 h-16 object-contain bg-white border rounded p-1 shrink-0" @error="e=>e.target.src='https://via.placeholder.com/100'" />
+                  <img :src="it.item.imagen_url" class="w-16 h-16 object-contain bg-white border rounded p-1 shrink-0" @error="e=>e.target.src='https://via.placeholder.com/100'" />
                   <div class="flex-1 min-w-0">
-                    <p class="font-semibold text-sm line-clamp-2">{{ item.nombre }}</p>
-                    <p class="text-xs text-gray-500">{{ item.marca }} · {{ item.unidad_medida }} · {{ item.categoria }}</p>
-                    <button @click="budgetStore.removeItem(idx)" class="md:hidden text-xs text-red-500 mt-1">Eliminar</button>
+                    <p class="font-semibold text-sm line-clamp-2">{{ it.item.nombre }}</p>
+                    <p class="text-xs text-gray-500">{{ it.item.marca }} · {{ it.item.unidad_medida }} · {{ it.item.categoria }}</p>
+                    <button @click="budgetStore.removeItem(it.idx)" class="md:hidden text-xs text-red-500 mt-1">Eliminar</button>
                   </div>
                 </div>
                 <div class="flex items-center gap-2 col-span-2 w-full md:w-auto md:justify-center">
-                  <button @click="budgetStore.decQty(idx)" class="w-9 h-9 md:w-8 md:h-8 border rounded flex items-center justify-center hover:bg-gray-100 shrink-0">−</button>
-                  <input v-model.number="item.quantity" type="number" min="1" class="w-16 text-center border rounded py-2 text-sm font-bold" />
-                  <button @click="budgetStore.incQty(idx)" class="w-9 h-9 md:w-8 md:h-8 border rounded flex items-center justify-center hover:bg-gray-100 shrink-0">+</button>
-                  <span class="md:hidden ml-auto text-xs text-gray-500">{{ item.unidad_medida }}</span>
-                  <button @click="budgetStore.removeItem(idx)" class="hidden md:block text-xs text-red-500 hover:text-red-600 ml-2">Eliminar</button>
+                  <button @click="budgetStore.decQty(it.idx)" class="w-9 h-9 md:w-8 md:h-8 border rounded flex items-center justify-center hover:bg-gray-100 shrink-0">−</button>
+                  <input v-model.number="it.item.quantity" type="number" min="1" class="w-16 text-center border rounded py-2 text-sm font-bold" />
+                  <button @click="budgetStore.incQty(it.idx)" class="w-9 h-9 md:w-8 md:h-8 border rounded flex items-center justify-center hover:bg-gray-100 shrink-0">+</button>
+                  <span class="md:hidden ml-auto text-xs text-gray-500">{{ it.item.unidad_medida }}</span>
+                  <button @click="budgetStore.removeItem(it.idx)" class="hidden md:block text-xs text-red-500 hover:text-red-600 ml-2">Eliminar</button>
                 </div>
-                <div class="hidden md:block col-span-2 text-right text-sm">${{ Number(item.precio).toLocaleString('es-CO') }}</div>
+                <div class="hidden md:block col-span-2 text-right text-sm">${{ Number(it.item.precio).toLocaleString('es-CO') }}</div>
                 <div class="flex md:block col-span-2 justify-between items-center w-full md:w-auto md:text-right">
-                  <span class="md:hidden text-sm text-gray-500">${{ Number(item.precio).toLocaleString('es-CO') }} × {{ item.quantity }}</span>
-                  <span class="text-sm md:text-base font-bold">${{ Number(item.precio * item.quantity).toLocaleString('es-CO') }}</span>
+                  <span class="md:hidden text-sm text-gray-500">${{ Number(it.item.precio).toLocaleString('es-CO') }} × {{ it.item.quantity }}</span>
+                  <span class="text-sm md:text-base font-bold">${{ Number(it.item.precio * it.item.quantity).toLocaleString('es-CO') }}</span>
                 </div>
               </li>
+              <template v-if="groupedItems.mano_obra.length">
+              <li class="px-4 py-2 bg-orange-50 text-xs font-bold text-orange-700 uppercase">2 · Mano de obra <span class="ml-1 normal-case font-semibold text-gray-500">${{ subtotalSeccion('mano_obra').toLocaleString('es-CO') }}</span></li>
+              <li v-for="it in groupedItems.mano_obra" :key="it.item.url_producto" class="p-4 flex flex-col md:grid md:grid-cols-12 gap-3 items-start md:items-center">
+                <div class="flex gap-3 col-span-6 w-full">
+                  <img :src="it.item.imagen_url" class="w-16 h-16 object-contain bg-white border rounded p-1 shrink-0" @error="e=>e.target.src='https://via.placeholder.com/100'" />
+                  <div class="flex-1 min-w-0">
+                    <p class="font-semibold text-sm line-clamp-2">{{ it.item.nombre }}</p>
+                    <p class="text-xs text-gray-500">{{ it.item.marca }} · {{ it.item.unidad_medida }} · {{ it.item.categoria }}</p>
+                    <button @click="budgetStore.removeItem(it.idx)" class="md:hidden text-xs text-red-500 mt-1">Eliminar</button>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 col-span-2 w-full md:w-auto md:justify-center">
+                  <button @click="budgetStore.decQty(it.idx)" class="w-9 h-9 md:w-8 md:h-8 border rounded flex items-center justify-center hover:bg-gray-100 shrink-0">−</button>
+                  <input v-model.number="it.item.quantity" type="number" min="1" class="w-16 text-center border rounded py-2 text-sm font-bold" />
+                  <button @click="budgetStore.incQty(it.idx)" class="w-9 h-9 md:w-8 md:h-8 border rounded flex items-center justify-center hover:bg-gray-100 shrink-0">+</button>
+                  <span class="md:hidden ml-auto text-xs text-gray-500">{{ it.item.unidad_medida }}</span>
+                  <button @click="budgetStore.removeItem(it.idx)" class="hidden md:block text-xs text-red-500 hover:text-red-600 ml-2">Eliminar</button>
+                </div>
+                <div class="hidden md:block col-span-2 text-right text-sm">${{ Number(it.item.precio).toLocaleString('es-CO') }}</div>
+                <div class="flex md:block col-span-2 justify-between items-center w-full md:w-auto md:text-right">
+                  <span class="md:hidden text-sm text-gray-500">${{ Number(it.item.precio).toLocaleString('es-CO') }} × {{ it.item.quantity }}</span>
+                  <span class="text-sm md:text-base font-bold">${{ Number(it.item.precio * it.item.quantity).toLocaleString('es-CO') }}</span>
+                </div>
+              </li>
+              </template>
             </ul>
           </div>
           <button @click="$router.push('/dashboard')" class="mt-4 text-sm text-purple-600 hover:text-purple-700 font-semibold">← Seguir buscando productos</button>
@@ -106,6 +132,17 @@ const budgetTypeLabel = computed(() => {
   return m[budgetStore.budgetType] || budgetStore.budgetType
 })
 
+// Agrupa por sección conservando el índice real (para editar/eliminar)
+const groupedItems = computed(() => {
+  const g = { materiales: [], mano_obra: [] }
+  budgetStore.items.forEach((item, idx) => {
+    const sec = item.seccion === 'mano_obra' ? 'mano_obra' : 'materiales'
+    g[sec].push({ item, idx })
+  })
+  return g
+})
+const subtotalSeccion = (sec) => groupedItems.value[sec].reduce((s, it) => s + (Number(it.item.precio) || 0) * (Number(it.item.quantity) || 0), 0)
+
 const generatePDF = async () => {
   const token = localStorage.getItem('access_token')
   if (!token) { alert('Inicia sesión'); router.push('/login'); return }
@@ -121,7 +158,8 @@ const generatePDF = async () => {
         product_name: i.nombre,
         quantity: parseInt(i.quantity),
         unit_price: parseFloat(i.precio),
-        total_price: parseFloat(i.precio) * parseInt(i.quantity)
+        total_price: parseFloat(i.precio) * parseInt(i.quantity),
+        seccion: i.seccion === 'mano_obra' ? 'mano_obra' : 'materiales'
       }))
     }
     const r = await fetch('https://toolsprice-back.onrender.com/api/budgets/', { method:'POST', headers:{'Content-Type':'application/json', Authorization:`Bearer ${token}`}, body: JSON.stringify(payload)})
