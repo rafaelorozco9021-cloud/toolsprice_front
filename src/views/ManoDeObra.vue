@@ -3,6 +3,7 @@
     <header class="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6 md:mb-8">
       <h1 class="text-xl md:text-2xl font-bold text-gray-800">ToolsPrice <span class="text-xs md:text-sm font-normal text-gray-500">· Mano de Obra</span></h1>
       <div class="flex flex-wrap items-center gap-2 md:gap-3">
+        <button @click="$router.push('/obra-ia')" class="flex-1 md:flex-none px-3 md:px-4 py-2 bg-purple-600 text-white rounded-lg text-xs md:text-sm font-bold hover:bg-purple-700">🤖 Analizar obra con IA</button>
         <button @click="$router.push('/dashboard')" class="flex-1 md:flex-none px-3 md:px-4 py-2 bg-white border rounded-lg text-xs md:text-sm font-semibold hover:bg-gray-50">🏗 Materiales</button>
         <button @click="$router.push('/presupuesto')" class="flex-1 md:flex-none px-3 md:px-4 py-2 bg-purple-600 text-white rounded-lg text-xs md:text-sm font-bold hover:bg-purple-700 flex items-center justify-center gap-1">
           🛒 Presupuesto <span v-if="budgetStore.itemsCount" class="bg-white text-purple-700 text-xs px-2 py-0.5 rounded-full">{{ budgetStore.itemsCount }}</span>

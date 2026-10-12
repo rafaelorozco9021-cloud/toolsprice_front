@@ -4,6 +4,7 @@
       <h1 class="text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-2">ToolsPrice <span class="text-xs md:text-sm font-normal text-gray-500">· Homecenter</span></h1>
       <p v-if="userName" class="text-xs text-gray-500">Hola, {{ userName }} · tus PDFs se firmarán con este nombre</p>
       <div class="flex flex-wrap items-center gap-2 md:gap-3">
+        <button @click="$router.push('/obra-ia')" class="flex-1 md:flex-none px-3 md:px-4 py-2 bg-purple-600 text-white rounded-lg text-xs md:text-sm font-bold hover:bg-purple-700">🤖 Analizar obra con IA</button>
         <button @click="$router.push('/mano-de-obra')" class="flex-1 md:flex-none px-3 md:px-4 py-2 bg-orange-500 text-white rounded-lg text-xs md:text-sm font-bold hover:bg-orange-600">👷 Mano de Obra</button>
         <button @click="$router.push('/mis-facturas')" class="flex-1 md:flex-none px-3 md:px-4 py-2 bg-white border-2 border-purple-200 text-purple-700 rounded-lg text-xs md:text-sm font-bold hover:bg-purple-50">📄 Mis Facturas</button>
         <button @click="logout" class="w-full md:w-auto text-center text-purple-600 hover:text-purple-700 text-xs md:text-sm border md:border-0 border-purple-200 rounded-lg py-2 md:py-0">Cerrar sesión</button>

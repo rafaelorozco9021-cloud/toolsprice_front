@@ -6,6 +6,7 @@ import Dashboard from '../views/Dashboard.vue'
 import MisFacturas from '../views/MisFacturas.vue'
 import ManoDeObra from '../views/ManoDeObra.vue'
 import Presupuesto from '../views/Presupuesto.vue'
+import ObraIA from '../views/ObraIA.vue'
 
 const routes = [
   { path: '/', name: 'Landing', component: LandingPage },
@@ -16,6 +17,7 @@ const routes = [
   { path: '/carrito', redirect: '/presupuesto' },
   { path: '/mis-facturas', name: 'MisFacturas', component: MisFacturas, meta: { requiresAuth: true } },
   { path: '/mano-de-obra', name: 'ManoDeObra', component: ManoDeObra, meta: { requiresAuth: true } },
+  { path: '/obra-ia', name: 'ObraIA', component: ObraIA, meta: { requiresAuth: true } },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ]
 
