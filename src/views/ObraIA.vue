@@ -45,7 +45,7 @@
 
         <!-- Materiales -->
         <div class="bg-white rounded-lg shadow overflow-hidden mb-4">
-          <h3 class="text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-orange-500 px-4 py-2">1 · Materiales <span class="ml-2 bg-white text-purple-700 text-xs px-2 py-0.5 rounded font-bold">${{ fmt(resultado.subtotal_materiales) }}</span></h3>
+          <h3 class="text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-orange-500 px-4 py-2">1 · Materiales <span class="ml-2 bg-white text-purple-700 text-xs px-2 py-0.5 rounded font-bold">${{ fmt(totalMateriales) }}</span></h3>
           <ul class="divide-y">
             <li v-for="(m, i) in resultado.materiales" :key="i" class="p-4 flex flex-col md:flex-row md:items-center gap-3">
               <img :src="m.imagen_url || 'https://via.placeholder.com/100'" class="w-16 h-16 object-contain bg-white border rounded p-1 shrink-0" @error="e => e.target.src='https://via.placeholder.com/100'" />
@@ -53,7 +53,11 @@
                 <p class="font-semibold text-gray-800 text-sm">{{ m.nombre }}</p>
                 <p class="text-xs text-gray-500">{{ m.marca || '—' }} · {{ m.nota }}</p>
                 <p v-if="!m.encontrado" class="text-xs text-red-500 font-semibold">Sin precio en Homecenter — revísalo</p>
-                <p v-else class="text-sm font-bold text-purple-600 mt-1">${{ fmt(m.precio) }} <span class="text-xs font-normal text-gray-500">/ {{ m.unidad }}</span></p>
+                <div v-else class="flex items-center gap-1 mt-1">
+                  <span class="text-sm font-bold text-purple-600">$</span>
+                  <input v-model.number="m.precio" type="number" min="0" step="any" title="Precio editable (ej. precio por volqueta)" class="w-28 px-2 py-1 border rounded-lg text-sm font-bold text-purple-600" />
+                  <span class="text-xs font-normal text-gray-500">/ {{ m.unidad }}</span>
+                </div>
               </div>
               <div class="flex items-center gap-2 shrink-0">
                 <button @click="m.cantidad = redondear(m.cantidad - paso(m.unidad))" class="w-9 h-9 border-2 rounded-lg font-bold">−</button>
@@ -67,13 +71,17 @@
 
         <!-- Mano de obra -->
         <div class="bg-white rounded-lg shadow overflow-hidden mb-4">
-          <h3 class="text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-purple-600 px-4 py-2">2 · Mano de obra <span class="ml-2 bg-white text-orange-600 text-xs px-2 py-0.5 rounded font-bold">${{ fmt(resultado.subtotal_mano_obra) }}</span></h3>
+          <h3 class="text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-purple-600 px-4 py-2">2 · Mano de obra <span class="ml-2 bg-white text-orange-600 text-xs px-2 py-0.5 rounded font-bold">${{ fmt(totalMano) }}</span></h3>
           <ul class="divide-y">
             <li v-for="(t, i) in resultado.mano_de_obra" :key="i" class="p-4 flex flex-col md:flex-row md:items-center gap-3">
               <div class="flex-1 min-w-0">
                 <p class="font-semibold text-gray-800 text-sm">{{ t.nombre }}</p>
                 <p class="text-xs text-gray-500">{{ t.categoria }} · {{ t.nota }}</p>
-                <p class="text-sm font-bold text-purple-600 mt-1">${{ fmt(t.precio_unitario) }} <span class="text-xs font-normal text-gray-500">/ {{ t.unidad }}</span></p>
+                <div class="flex items-center gap-1 mt-1">
+                  <span class="text-sm font-bold text-purple-600">$</span>
+                  <input v-model.number="t.precio_unitario" type="number" min="0" step="any" title="Precio editable" class="w-28 px-2 py-1 border rounded-lg text-sm font-bold text-purple-600" />
+                  <span class="text-xs font-normal text-gray-500">/ {{ t.unidad }}</span>
+                </div>
               </div>
               <div class="flex items-center gap-2 shrink-0">
                 <button @click="t.cantidad = redondear(Math.max(0, t.cantidad - paso(t.unidad)))" class="w-9 h-9 border-2 rounded-lg font-bold">−</button>
