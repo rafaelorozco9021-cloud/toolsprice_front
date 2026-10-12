@@ -124,7 +124,14 @@ const ejemplos = [
 ]
 
 const fmt = (n) => Number(n || 0).toLocaleString('es-CO', { maximumFractionDigits: 0 })
-const paso = (u) => (u === 'unidad' || u === 'punto' ? 1 : 0.5)
+// Paso de los botones −/+: 1 en 1 para unidades discretas (bultos, unidades,
+// puntos, galones...), 0.5 para continuas (m², m³, ml, kg). El campo siempre
+// acepta cualquier valor escrito a mano.
+const paso = (u) => {
+  const t = String(u || '').toLowerCase()
+  if (/bulto|bolsa|unidad|punto|galon|galón|caja|set|kit|rollo|tubo|bloque|ladrillo|varilla|saco/.test(t)) return 1
+  return 0.5
+}
 const redondear = (n) => Math.round(Math.max(0, Number(n) || 0) * 100) / 100
 
 const totalMateriales = computed(() => (resultado.value?.materiales || []).reduce((s, m) => s + (Number(m.precio) || 0) * (Number(m.cantidad) || 0), 0))
