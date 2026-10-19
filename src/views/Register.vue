@@ -25,6 +25,26 @@
           <label class="block text-gray-700 font-semibold mb-2">Confirmar contraseña</label>
           <input v-model="form.password_confirm" type="password" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500" required />
         </div>
+
+        <div class="mb-4">
+          <label class="flex items-center gap-2 text-gray-700 font-semibold cursor-pointer">
+            <input v-model="form.has_company" type="checkbox" class="w-4 h-4 accent-purple-600" />
+            ¿Tienes empresa?
+          </label>
+          <p class="text-xs text-gray-400 mt-1">Si la tienes, aparecerá en tus presupuestos en PDF.</p>
+        </div>
+        <template v-if="form.has_company">
+          <div class="mb-4">
+            <label class="block text-gray-700 font-semibold mb-2">Nombre de la empresa</label>
+            <input v-model="form.company_name" type="text" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Ej. Construcciones Rojas SAS" />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 font-semibold mb-2">Dueño o representante</label>
+            <input v-model="form.owner_name" type="text" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500" :placeholder="form.name || 'Tu nombre'" />
+            <p class="text-xs text-gray-400 mt-1">Este nombre aparecerá como firma en el PDF. Si lo dejas vacío usamos tu nombre.</p>
+          </div>
+        </template>
+
         <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700">Registrarse</button>
       </form>
 
@@ -50,7 +70,10 @@ const form = ref({
   name: '',
   email: '',
   password: '',
-  password_confirm: ''
+  password_confirm: '',
+  has_company: false,
+  company_name: '',
+  owner_name: ''
 })
 
 const handleRegister = async () => {
@@ -73,7 +96,7 @@ const handleRegister = async () => {
 
     if (response.ok) {
       success.value = '¡Registro exitoso! Inicia sesión para continuar.'
-      form.value = { name: '', email: '', password: '', password_confirm: '' }
+      form.value = { name: '', email: '', password: '', password_confirm: '', has_company: false, company_name: '', owner_name: '' }
       setTimeout(() => router.push('/login'), 2000)
     } else {
       error.value = data.detail || 'Error al registrar'
